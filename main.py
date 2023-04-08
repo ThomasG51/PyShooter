@@ -16,6 +16,12 @@ while running:
     screen.blit(background, (0, -200))
     screen.blit(game.player.image, game.player.rect)
 
+    #Gestion des tirs
+    for bullet in game.player.bullets:
+        bullet.move()
+
+    game.player.bullets.draw(screen)
+
     # Check action du joueur
     if game.pressed.get(pygame.K_RIGHT) and game.player.rect.x + game.player.rect.width < screen.get_width():
         game.player.move_right()
@@ -34,6 +40,9 @@ while running:
         # Event: Appuie sur une touche
         elif event.type == pygame.KEYDOWN:
             game.pressed[event.key] = True
+
+            if event.key == pygame.K_SPACE:
+                game.player.launch_bullet()
         # Event: Une touche est relachée
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False
